@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 class Question extends StatelessWidget {
   String questionText; //final : does not change after initialization
 
-  Question(this.questionText);
+  Question(this.questionText); //initializtion
 
-  Question.deafault(this.questionText) {
+  Question.deafault() {
     questionText = 'default text';
-  }
+  } //initialization with option
 
   @override
   Widget build(BuildContext context) {

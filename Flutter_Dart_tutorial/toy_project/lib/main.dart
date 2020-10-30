@@ -1,5 +1,8 @@
+import 'package:ex1/quiz.dart';
 import 'package:flutter/material.dart';
 import './question.dart';
+import './answer.dart';
+import './result.dart';
 
 void main() {
   //takes object, so have to be constructed
@@ -20,6 +23,36 @@ class pracAppState extends State<pracApp> {
   //@override :decorator, overriding
   String name = 'dddd';
   var qIndex = 0;
+
+  static const questionList = [
+    {
+      'questionText': 'What\'s your favorite color?',
+      'answers': [
+        {'text': 'Black', 'score': 10},
+        {'text': 'Red', 'score': 5},
+        {'text': 'Green', 'score': 3},
+        {'text': 'White', 'score': 1},
+      ],
+    },
+    {
+      'questionText': 'What\'s your favorite animal?',
+      'answers': [
+        {'text': 'Rabbit', 'score': 3},
+        {'text': 'Snake', 'score': 11},
+        {'text': 'Elephant', 'score': 5},
+        {'text': 'Lion', 'score': 9},
+      ],
+    },
+    {
+      'questionText': 'Who\'s your favorite instructor?',
+      'answers': [
+        {'text': 'Max', 'score': 1},
+        {'text': 'Max', 'score': 1},
+        {'text': 'Max', 'score': 1},
+        {'text': 'Max', 'score': 1},
+      ],
+    },
+  ];
   //constructor by repeating name
   fun({String inputs, int inputi}) {
     //{} for named arguements
@@ -29,6 +62,10 @@ class pracAppState extends State<pracApp> {
   } // = Myapp({this.name=inputs, int inputi})
 
   void whatToDo() {
+    // var aBool can have true, false values
+    if (qIndex < (questionList.length - 1)) {
+      print('question left');
+    } // can use else, elsee if {}, and && or ||
     setState(() {
       qIndex = qIndex + 1;
     }); // setting state, only this could change the widget which is presented
@@ -38,7 +75,7 @@ class pracAppState extends State<pracApp> {
   @override
   Widget build(BuildContext context) {
     //This is our entire app
-    var questionList = ['q1', 'q2'];
+    //var questionList = ['q1', 'q2', 'q3', 'q4'];
 
     //build is responsible for all widget construction
     return MaterialApp(
@@ -47,30 +84,13 @@ class pracAppState extends State<pracApp> {
         appBar: AppBar(title: Text('My First App')), //head bar??
         body: Scaffold(
             appBar: AppBar(
-              title: Question('kingbingodbin'),
+              title: qIndex < questionList.length
+                  ? Question(questionList[qIndex]['questionText'])
+                  : Result(),
             ),
-            body: Column(children: <Widget>[
-              Text('are you tired?'),
-              RaisedButton(
-                child: Text(questionList.elementAt(0)), // same as obj[index]
-                onPressed: whatToDo, // onPressed takes a function,
-                // [a function]() is the return value of [a function] not the function itself.
-                // the function is run when RaisedButton is executed not when the button is pressed.
-                // just giving [a function], we allocate the pointer for that function which is approriate in this situation
-              ),
-              RaisedButton(
-                  child: Text(questionList[1]),
-                  onPressed: () {
-                    print('zzzz');
-                  } // same as () => print('shit');, one line function for unnamed function
-                  ),
-              RaisedButton(
-                  child: Text(questionList[qIndex]),
-                  onPressed: () {
-                    print(questionList[qIndex]);
-                  } // same as () => print('shit');, one line function for unnamed function
-                  ),
-            ]) // []: list,
+            body: qIndex < questionList.length
+                ? Quiz(questionList, whatToDo, qIndex)
+                : Result() // []: list,
             ), // content
       ),
     );
